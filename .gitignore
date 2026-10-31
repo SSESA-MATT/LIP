@@ -1,0 +1,15 @@
+bin/
+obj/
+.vs/
+node_modules/
+.next/
+*.db
+*.user
+*.zip
+.dotnet/
+*:Zone.Identifier
+apps/web/.next/
+*.tsbuildinfo
+apps/lip-api/publish/
+.env
+.env.local

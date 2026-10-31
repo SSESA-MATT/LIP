@@ -1,0 +1,6 @@
+@Lip.Api_HostAddress = http://localhost:5029
+
+GET {{Lip.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cip-background: #f5f7fa;
+  --cip-surface: #ffffff;
+  --cip-text: #1a1a2e;
+  --cip-muted-text: #64748b;
+  --cip-primary: #2d5a87;
+  --cip-secondary: #1e3a5f;
+  --cip-accent: #4a7fb5;
+  --cip-border: #e2e8f0;
+  --cip-card: #ffffff;
+  --cip-v2-sidebar-expanded: 16rem;
+  --cip-v2-sidebar-collapsed: 3.5rem;
+  --cip-v2-border: #e5e7eb;
+  --cip-v2-surface: #ffffff;
+  --cip-v2-page: #f7f8fc;
+  --cip-v2-accent-bg: #eff6ff;
+  --cip-v2-accent-text: #1d4ed8;
+  --cip-v2-muted: #6b7280;
+  --cip-v2-text: #111827;
+}
+
+html, body { margin: 0; background: var(--cip-v2-page); color: var(--cip-v2-text); font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+.v2-nav-active { background: var(--cip-v2-accent-bg); color: var(--cip-v2-accent-text); }
+.dashboard-v2 { background: var(--cip-v2-page); color: var(--cip-v2-text); }
+.cip-cc { background: radial-gradient(ellipse at top, rgba(23,105,255,.08), transparent 55%), linear-gradient(#ffffff, #f4f7fb); }
+.cip-cc-serif { font-family: "Source Serif 4", Georgia, serif; }
+.cip-acq { color: #0b1640; }
+.login-page { background: linear-gradient(180deg, #ffffff, #f4f8ff 42%, #eef4fc 72%, #f8fafc); }
+.login-signin-card { background: #fff; border-radius: 1.25rem; box-shadow: 0 20px 50px rgba(15,23,42,.08); }
+.mkt-glow-card { background: #fff; border: 1px solid #dbe7ff; border-radius: 1.25rem; box-shadow: 0 0 0 1px rgba(23,105,255,.08), 0 18px 50px rgba(23,105,255,.14); }
