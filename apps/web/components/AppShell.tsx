@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   BarChart3, Briefcase, Calendar, FileSearch, Gavel, Inbox, Menu,
-  PanelLeftClose, PanelLeftOpen, Scale, Settings, Shield, Sparkles, Users, X,
+  MessageSquare, Plus, PanelLeftClose, PanelLeftOpen, Scale, Settings, Shield, Sparkles, Users, X,
 } from "lucide-react";
 import { api, type SessionUser } from "@/lib/api";
 import { Logo } from "@/components/cip/ui";
@@ -39,10 +39,6 @@ const TITLES: Record<string, string> = {
   "/dashboard/reports": "Reports",
   "/dashboard/settings": "Settings",
 };
-
-function formatHeaderDate(date = new Date()) {
-  return date.toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "short", year: "numeric" });
-}
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -98,12 +94,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </button>
         </div>
         <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-3">
+          <Link href="/dashboard" title="New conversation" onClick={() => setMobile(false)} className="new-conversation mb-4 flex min-h-10 items-center gap-3 rounded-xl px-3 text-[13px] font-medium text-white"><Plus className="h-5 w-5 shrink-0" />{showLabels && "New conversation"}</Link>
           {visible.map((item) => {
             const active = pathname === item.href;
             const Icon = item.icon;
             return (
               <Link key={item.href} href={item.href} title={item.label} onClick={() => setMobile(false)}
-                className={`flex min-h-11 items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-medium ${active ? "v2-nav-active" : "text-slate-600 hover:bg-blue-50"}`}>
+                aria-current={active ? "page" : undefined} className={`flex min-h-9 items-center gap-3 rounded-xl px-3 py-2 text-[12px] font-medium ${active ? "v2-nav-active" : "text-slate-600 hover:bg-blue-50"}`}>
                 <Icon className="h-5 w-5 flex-shrink-0" />
                 {showLabels && <span className="truncate">{item.label}</span>}
               </Link>
@@ -112,11 +109,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {showLabels && (
             <div className="mt-4 border-t border-gray-100 pt-3">
               <div className="flex items-center justify-between px-2.5 pb-1">
-                <div className="text-[13px] font-medium text-slate-500">Recent chats</div>
+                <div className="text-[11px] font-medium text-slate-500">Recent conversations</div>
                 <Link href="/dashboard" className="text-[12px] font-semibold text-[#1769FF]" onClick={() => setMobile(false)}>New chat</Link>
               </div>
               {chats.slice(0, 5).map((chat) => (
-                <Link key={chat.id} href={`/dashboard?conversationId=${encodeURIComponent(chat.id)}`} className={`block truncate rounded-md px-2.5 py-1.5 text-[13px] hover:bg-gray-100 ${activeConversation === chat.id ? "bg-[#eff6ff] font-medium text-[#1d4ed8]" : "text-slate-600"}`} onClick={() => setMobile(false)}>{chat.query}</Link>
+                <Link key={chat.id} href={`/dashboard?conversationId=${encodeURIComponent(chat.id)}`} className={`flex items-center gap-3 rounded-lg px-2.5 py-2 text-[12px] hover:bg-blue-50 ${activeConversation === chat.id ? "bg-[#eff6ff] font-medium text-[#1d4ed8]" : "text-slate-600"}`} onClick={() => setMobile(false)}><MessageSquare size={14} className="shrink-0" /><span className="truncate">{chat.query}</span></Link>
               ))}
               {chats.length === 0 && <div className="px-2.5 text-[13px] text-slate-400">No command runs yet</div>}
             </div>
@@ -140,9 +137,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <button type="button" className="rounded-md p-2 text-slate-600 hover:bg-blue-50" aria-label="Open navigation" onClick={() => setMobile(true)}><Menu className="h-5 w-5" /></button>
             <Logo compact />
           </div>
-          <div className="ml-auto text-right">
-            {onCommandHome ? <p className="text-sm font-medium text-[var(--cip-v2-text)]">{formatHeaderDate()}</p> : <div className="text-sm font-medium text-[#0B1640]">{tenant?.name}</div>}
-            <div className="text-[12px] text-slate-400">{onCommandHome ? tenant?.name : tenant?.mode}</div>
+          <div className="ml-auto flex min-w-0 items-center gap-3 rounded-xl p-2">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#080F49] text-xs font-semibold text-white">{(user?.name || "L").split(" ").map((part) => part[0]).slice(0, 2).join("")}</span>
+            <span className="min-w-0"><span className="block truncate text-xs font-semibold">{user?.name || "Your workspace"}</span><span className="block truncate text-[10px] text-slate-500">{tenant?.name}</span></span>
           </div>
         </header>
         <main className="lip-main min-h-0 flex-1 overflow-y-auto px-3 py-4 sm:px-4 md:px-6">

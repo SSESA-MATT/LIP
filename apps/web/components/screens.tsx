@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Sparkles } from "lucide-react";
+import { ArrowRight, BarChart3, Briefcase, ChevronDown, FileSearch, FileText, Globe, Scale, Send, Sparkles } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { api, type SessionUser } from "@/lib/api";
@@ -770,10 +770,10 @@ export function CommandScreen() {
     <div className="cip-cc -mx-3 -my-4 flex min-h-[calc(100dvh-4rem)] flex-col px-4 sm:-mx-4 sm:px-6 md:-mx-6">
       <div className={`mx-auto flex w-full max-w-5xl flex-1 flex-col py-8 ${idle ? "justify-center" : "pt-8"}`}>
         {idle && (
-          <header className="mb-10 text-center">
+          <header className="command-greeting text-center">
             <Sparkles aria-hidden="true" className="mx-auto mb-6 h-12 w-12 text-amber-400" strokeWidth={1.4} />
-            <h1 className="text-[2rem] font-bold tracking-tight text-[#080F49] sm:text-[3rem]">{greeting()}{first ? <>, <span className="text-[#1769FF]">{first}</span></> : null}</h1>
-            <p className="mx-auto mt-3 max-w-xl text-base text-slate-500 sm:text-lg">Ask a legal question and get an answer with its citation.</p>
+            <h1 className="text-[2rem] font-bold tracking-tight text-[#080F49] sm:text-[3rem]">Hello{first ? <>, <span className="text-[#1769FF]">{first}.</span></> : "."}</h1>
+            <p className="mx-auto mt-2 max-w-xl text-base text-slate-500 sm:text-lg">Your legal workspace, one conversation away.</p>
           </header>
         )}
         {!idle && (
@@ -791,22 +791,34 @@ export function CommandScreen() {
             {busy && <div className="text-[13px] text-slate-400">Working…</div>}
           </div>
         )}
-        <div className={`lip-composer ${idle ? "" : "sticky bottom-4"} rounded-3xl border border-slate-200 bg-white p-4 sm:p-6`}>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
-            <input aria-label="Ask about a matter you can see" className="h-16 min-w-0 flex-1 rounded-xl border-0 bg-transparent px-2 text-base outline-none sm:text-lg" placeholder="Ask about a matter you can see" value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") void send(); }} />
-            <PrimaryButton onClick={() => void send()} disabled={busy}>Send</PrimaryButton>
+        <div className={`lip-composer ${idle ? "" : "sticky bottom-4"} rounded-3xl border border-slate-200 bg-white p-4 sm:p-5`}>
+          <input aria-label="Ask about a matter you can see" className="h-12 w-full rounded-xl border-0 bg-transparent px-1 text-base outline-none" placeholder="Ask LIP anything…" value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.nativeEvent.isComposing) void send(); }} />
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className="command-scope"><Globe size={15} /> Workspace sources</span>
+            <Link href="/dashboard/workbench" className="command-scope"><Scale size={15} /> Legal Workbench <ChevronDown size={13} /></Link>
+            <button type="button" className="command-send ml-auto" aria-label="Send command" onClick={() => void send()} disabled={busy || !query.trim()}><Send size={20} /></button>
           </div>
         </div>
+        {idle && <>
+          <div className="command-actions">
+            {[
+              { title: "Manage your matters", body: "Review active matters and keep your next steps moving.", href: "/dashboard/matters", icon: Briefcase, tone: "purple" },
+              { title: "Analyse a contract", body: "Review contracts and identify clauses that need attention.", href: "/dashboard/contracts", icon: FileSearch, tone: "blue" },
+              { title: "Track performance", body: "Explore your workspace activity and reporting.", href: "/dashboard/reports", icon: BarChart3, tone: "green" },
+              { title: "Research a legal question", body: "Find grounded answers with supporting citations.", href: "/dashboard/workbench", icon: Sparkles, tone: "gold" },
+            ].map(({ title, body, href, icon: Icon, tone }) => <Link href={href} key={href} className="command-action"><span className={`command-action-icon ${tone}`}><Icon size={23} /></span><span><span className="flex items-start justify-between gap-2 font-semibold">{title}<ArrowRight size={15} className="shrink-0" /></span><span className="mt-2 block text-xs leading-relaxed text-slate-500">{body}</span></span></Link>)}
+          </div>
+          <div className="command-more"><span>More ways to get started</span></div>
+          <div className="command-shortcuts">
+            <Link href="/dashboard/workbench"><FileText size={15} /> Work with a document</Link>
+            <Link href="/dashboard/reports"><BarChart3 size={15} /> View reports</Link>
+            <Link href="/dashboard/compliance"><Scale size={15} /> Check compliance</Link>
+            <Link href="/dashboard/inbox"><Briefcase size={15} /> Open your inbox</Link>
+          </div>
+        </>}
       </div>
     </div>
   );
-}
-
-function greeting() {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 17) return "Good afternoon";
-  return "Good evening";
 }
 
 const settingsSections = [
