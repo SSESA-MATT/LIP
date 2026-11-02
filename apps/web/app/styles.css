@@ -1,36 +1,108 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --cip-background: #f5f7fa;
+  --cip-background: #f5faff;
   --cip-surface: #ffffff;
-  --cip-text: #1a1a2e;
-  --cip-muted-text: #64748b;
-  --cip-primary: #2d5a87;
-  --cip-secondary: #1e3a5f;
-  --cip-accent: #4a7fb5;
-  --cip-border: #e2e8f0;
+  --cip-text: #080f49;
+  --cip-muted-text: #617198;
+  --cip-primary: #103568;
+  --cip-secondary: #080f49;
+  --cip-accent: #1769ff;
+  --cip-border: #dce8f8;
   --cip-card: #ffffff;
-  --cip-v2-sidebar-expanded: 16rem;
-  --cip-v2-sidebar-collapsed: 3.5rem;
-  --cip-v2-border: #e5e7eb;
+  --cip-v2-sidebar-expanded: 18rem;
+  --cip-v2-sidebar-collapsed: 5.5rem;
+  --cip-v2-border: #e1ecfa;
   --cip-v2-surface: #ffffff;
-  --cip-v2-page: #f7f8fc;
-  --cip-v2-accent-bg: #eff6ff;
-  --cip-v2-accent-text: #1d4ed8;
-  --cip-v2-muted: #6b7280;
-  --cip-v2-text: #111827;
+  --cip-v2-page: #f5faff;
+  --cip-v2-accent-bg: #e1eeff;
+  --cip-v2-accent-text: #080f49;
+  --cip-v2-muted: #617198;
+  --cip-v2-text: #080f49;
 }
 
-html, body { margin: 0; background: var(--cip-v2-page); color: var(--cip-v2-text); font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-.v2-nav-active { background: var(--cip-v2-accent-bg); color: var(--cip-v2-accent-text); }
-.dashboard-v2 { background: var(--cip-v2-page); color: var(--cip-v2-text); }
-.cip-cc { background: radial-gradient(ellipse at top, rgba(23,105,255,.08), transparent 55%), linear-gradient(#ffffff, #f4f7fb); }
-.cip-cc-serif { font-family: "Source Serif 4", Georgia, serif; }
-.cip-acq { color: #0b1640; }
-.login-page { background: linear-gradient(180deg, #ffffff, #f4f8ff 42%, #eef4fc 72%, #f8fafc); }
-.login-signin-card { background: #fff; border-radius: 1.25rem; box-shadow: 0 20px 50px rgba(15,23,42,.08); }
-.mkt-glow-card { background: #fff; border: 1px solid #dbe7ff; border-radius: 1.25rem; box-shadow: 0 0 0 1px rgba(23,105,255,.08), 0 18px 50px rgba(23,105,255,.14); }
+@layer base {
+  html, body {
+    margin: 0;
+    background: var(--cip-v2-page);
+    color: var(--cip-v2-text);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { letter-spacing: -.025em; }
+  button, a, input, select, textarea {
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .15s, border-color .15s, box-shadow .15s;
+  }
+  button:disabled { cursor: not-allowed; }
+  :where(button, a, input, select, textarea):focus-visible {
+    outline: 2px solid #1769ff;
+    outline-offset: 3px;
+  }
+  input:not([type="checkbox"]):not([type="radio"]), select, textarea { min-width: 0; }
+  input::placeholder, textarea::placeholder { color: #7181a5; }
+  input[type="checkbox"], input[type="radio"] { accent-color: #1769ff; }
+  textarea { line-height: 1.65; }
+  ::selection { background: #d9eaff; color: #080f49; }
+}
+
+.dashboard-v2, .lip-page, .login-page {
+  color: var(--cip-v2-text);
+  background: radial-gradient(ellipse at 85% 15%, #fff 0, transparent 65%), linear-gradient(145deg, #f0f7ff, #fbfdff 50%, #eef7ff);
+}
+.lip-sidebar { background: linear-gradient(165deg, #f4f9ff, #eef7ff); }
+.lip-sidebar .v2-nav-active { background: #deecff; color: #080f49; font-weight: 600; }
+.lip-sidebar .v2-nav-active svg { color: #1769ff; }
+.lip-topbar { background: rgba(255,255,255,.78); border-color: transparent; }
+.lip-main { scrollbar-gutter: stable; }
+.lip-page-title {
+  font-size: clamp(1.5rem, 2.2vw, 1.875rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -.03em;
+  overflow-wrap: anywhere;
+}
+.lip-page-title + p { margin-top: .5rem; line-height: 1.6; }
+.lip-primary {
+  background: linear-gradient(120deg, #143d70, #08265a);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 3px 8px rgba(8,38,90,.08);
+}
+.lip-primary:hover:not(:disabled) { background: #164780; }
+.lip-card, .lip-table { box-shadow: 0 4px 20px rgba(35,83,147,.035); }
+.lip-card > header { background: linear-gradient(100deg, #fff, #fafdff); }
+.lip-kpi { background: linear-gradient(130deg, #fff, #edf6ff); }
+.lip-composer { box-shadow: 0 14px 45px rgba(53,117,201,.08); }
+.lip-composer:focus-within { border-color: #9bc0ff; box-shadow: 0 0 0 3px rgba(23,105,255,.06), 0 14px 45px rgba(53,117,201,.08); }
+.cip-acq { color: var(--cip-text); }
+
+/* Decorative waves are background layers, so controls remain unobstructed. */
+.cip-cc {
+  background-color: #fafdff;
+  background-image: url("/brand/workspace-waves.svg"), radial-gradient(ellipse at center, #fff 20%, #f3f9ff 100%);
+  background-size: 100% 100%, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.login-signin-card, .mkt-glow-card {
+  background: rgba(255,255,255,.95);
+  border: 1px solid var(--cip-border);
+  border-radius: 1.5rem;
+  box-shadow: 0 16px 60px rgba(35,83,147,.07);
+}
+.login-signin-card button:hover { border-color: #a9caff; }
+
+@media (max-width: 639px) {
+  .lip-topbar { gap: .5rem; }
+  .lip-topbar > div:last-child { min-width: 0; max-width: 55%; }
+  .lip-topbar > div:last-child > * { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+  .lip-composer .lip-primary { align-self: flex-end; }
+  .login-signin-card { padding: 1.5rem; }
+  .lip-card li { flex-wrap: wrap; gap: .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
+}

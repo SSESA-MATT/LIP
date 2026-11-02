@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Sparkles } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { api, type SessionUser } from "@/lib/api";
@@ -38,7 +39,7 @@ export function OverviewScreen() {
         { label: "Invoiced", value: Number(data.invoicedAmount).toLocaleString() },
         { label: "Obligations", value: String(data.regulatoryObligations) },
       ]} />
-      <p className="text-[12px] text-slate-500">{data.definitions.collectedRevenue} Outcome probability is withheld.</p>
+      <p className="text-[13px] text-slate-500">{data.definitions.collectedRevenue} Outcome probability is withheld.</p>
       <QueueCard title="Recent activity">
         <ul className="divide-y divide-slate-50">
           {data.activity.map((row) => (
@@ -112,7 +113,7 @@ export function InboxScreen() {
         <input className={searchClass} placeholder="Search conversations" value={query} onChange={(event) => setQuery(event.target.value)} />
         <div className="flex gap-2">
           {[["all", "All"], ["whatsapp", "WhatsApp"], ["web", "Web"]].map(([id, label]) => (
-            <button key={id} type="button" onClick={() => setChannel(id)} className={`rounded-full px-3 py-1.5 text-[12px] font-medium ${channel === id ? "bg-[#1769FF] text-white" : "bg-white text-slate-600 ring-1 ring-slate-200"}`}>{label}</button>
+            <button key={id} type="button" onClick={() => setChannel(id)} className={`rounded-full px-3 py-1.5 text-[13px] font-medium ${channel === id ? "bg-[#1769FF] text-white" : "bg-white text-slate-600 ring-1 ring-slate-200"}`}>{label}</button>
           ))}
         </div>
       </div>
@@ -132,10 +133,10 @@ export function InboxScreen() {
                 {visible.map((item) => (
                   <li key={item.id}>
                     <button type="button" onClick={() => setSelected(item.id)} className={`flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-slate-50/70 ${selected === item.id ? "bg-[#EEF4FF]" : ""}`}>
-                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-[12px] font-semibold text-[#0B1640]">{(item.enquiry?.sourceChannel || item.channel).slice(0, 2).toUpperCase()}</span>
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-[13px] font-semibold text-[#0B1640]">{(item.enquiry?.sourceChannel || item.channel).slice(0, 2).toUpperCase()}</span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-[13px] font-semibold text-[#0B1640]">{item.enquiry?.summary || item.enquiryId}</span>
-                        <span className="block text-[11px] text-slate-500">{item.enquiry?.sourceChannel || item.channel} · {item.queue}</span>
+                        <span className="block text-[12px] text-slate-500">{item.enquiry?.sourceChannel || item.channel} · {item.queue}</span>
                       </span>
                       <StatusDot status={item.status} />
                     </button>
@@ -149,16 +150,16 @@ export function InboxScreen() {
           {!row && <p className="text-[13px] text-slate-500">Select a conversation.</p>}
           {row && (
             <div className="space-y-3">
-              <p className="text-[12px] text-slate-500">Origin {row.enquiry?.sourceChannel || row.channel}</p>
+              <p className="text-[13px] text-slate-500">Origin {row.enquiry?.sourceChannel || row.channel}</p>
               {row.messages.map((message) => (
                 <div key={message.id} className={`max-w-[90%] rounded-2xl px-3 py-2 text-[13px] ${message.author === "client" || message.author === "requester" ? "bg-[#1769FF] text-white" : "border border-slate-200 bg-white text-slate-800"}`}>
-                  <div className="text-[10px] uppercase opacity-70">{message.author} · {message.kind}</div>
+                  <div className="text-[12px] uppercase opacity-70">{message.author} · {message.kind}</div>
                   {message.body}
                 </div>
               ))}
               <div className="space-y-2 border-t border-slate-100 pt-3">
                 <div className="flex gap-2">
-                  <input className="h-11 flex-1 rounded-xl border border-slate-200 px-3 text-[14px] outline-none focus:border-[#1769FF]" placeholder="Write a reply" value={reply} onChange={(event) => setReply(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") void sendReply(); }} />
+                  <input className="h-11 min-w-0 flex-1 rounded-xl border border-slate-200 px-3 text-[14px] outline-none focus:border-[#1769FF]" placeholder="Write a reply" value={reply} onChange={(event) => setReply(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") void sendReply(); }} />
                   <PrimaryButton onClick={() => void sendReply()} disabled={busy}>Reply</PrimaryButton>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -176,7 +177,7 @@ export function InboxScreen() {
   );
 }
 
-const viewClass = "inline-flex h-8 items-center rounded-lg border border-slate-200 bg-white px-3 text-[12px] font-semibold text-slate-700";
+const viewClass = "inline-flex min-h-10 items-center rounded-xl border border-slate-200 bg-white px-4 text-[13px] font-semibold text-slate-700";
 
 export function ClientsScreen() {
   const [rows, setRows] = useState<Array<{ id: string; name: string; kind: string; consentStatus: string; verifiedChannels: string }>>([]);
@@ -201,10 +202,10 @@ export function ClientsScreen() {
               {visible.map((row) => (
                 <li key={row.id} className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-slate-50/70">
                   <span className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1769FF] text-[12px] font-semibold text-white">{initials(row.name)}</span>
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1769FF] text-[13px] font-semibold text-white">{initials(row.name)}</span>
                     <span>
                       <span className="block text-[13px] font-semibold text-[#0B1640]">{row.name}</span>
-                      <span className="block text-[11px] text-slate-500">{row.kind} · {row.verifiedChannels}</span>
+                      <span className="block text-[12px] text-slate-500">{row.kind} · {row.verifiedChannels}</span>
                     </span>
                   </span>
                   <span className="flex items-center gap-3">
@@ -233,11 +234,11 @@ export function ClientDetail({ id }: { id: string }) {
         <div className="flex items-center gap-3">
           <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#1769FF] text-[18px] font-semibold text-white">{initials(data.client.name)}</span>
           <div>
-            <h2 className="text-[22px] font-bold">{data.client.name}</h2>
-            <p className="text-[12px] text-slate-500">Client 360 shows only matters you may see.</p>
+            <h1 className="lip-page-title">{data.client.name}</h1>
+            <p className="text-[13px] text-slate-500">Client 360 shows only matters you may see.</p>
           </div>
         </div>
-        {data.matters[0] && <Link href={`/dashboard/matters/${data.matters[0].id}`} className="inline-flex h-9 items-center justify-center rounded-xl bg-[#1769FF] px-3.5 text-[13px] font-semibold text-white hover:bg-[#0F5AE6]">Open matter</Link>}
+        {data.matters[0] && <Link href={`/dashboard/matters/${data.matters[0].id}`} className="inline-flex h-9 items-center justify-center rounded-xl lip-primary px-3.5 text-[13px] font-semibold text-white hover:bg-[#163f79]">Open matter</Link>}
       </div>
       <div className="flex gap-1 border-b border-slate-200">
         {tabs.map((item) => (
@@ -246,7 +247,7 @@ export function ClientDetail({ id }: { id: string }) {
       </div>
       {tab === "profile" && <DetailCard title="Profile"><Fields rows={[{ label: "Kind", value: data.client.kind }, { label: "Consent", value: data.client.consentStatus }, { label: "Channels", value: data.client.verifiedChannels }]} /></DetailCard>}
       {tab === "matters" && <DetailCard title="Matters">{data.matters.map((matter) => <Link key={matter.id} href={`/dashboard/matters/${matter.id}`} className="block border-b border-slate-100 py-2 text-[13px] font-medium">{matter.title}</Link>)}{data.matters.length === 0 && <p className="text-[13px] text-slate-500">No visible matters.</p>}</DetailCard>}
-      {tab === "enquiries" && <DetailCard title="Enquiries">{data.enquiries.map((enquiry) => <div key={enquiry.id} className="border-b border-slate-100 py-2 text-[13px]">{enquiry.summary}<span className="block text-[12px] text-slate-500">{enquiry.sourceChannel} · {enquiry.stage}</span></div>)}{data.enquiries.length === 0 && <p className="text-[13px] text-slate-500">No visible enquiries.</p>}</DetailCard>}
+      {tab === "enquiries" && <DetailCard title="Enquiries">{data.enquiries.map((enquiry) => <div key={enquiry.id} className="border-b border-slate-100 py-2 text-[13px]">{enquiry.summary}<span className="block text-[13px] text-slate-500">{enquiry.sourceChannel} · {enquiry.stage}</span></div>)}{data.enquiries.length === 0 && <p className="text-[13px] text-slate-500">No visible enquiries.</p>}</DetailCard>}
       {tab === "timeline" && <DetailCard title="Timeline">{data.timeline.map((row) => <div key={row.id} className="border-b border-slate-100 py-2 text-[13px]"><span className="font-medium text-[#0B1640]">{row.id}</span> · {row.action} · {row.outcome}</div>)}{data.timeline.length === 0 && <p className="text-[13px] text-slate-500">No audit rows for this client.</p>}</DetailCard>}
     </div>
   );
@@ -285,8 +286,8 @@ export function MattersScreen() {
     <div className="space-y-3">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">Matters</h2>
-          <p className="text-[12px] text-slate-500">A matter stays out of the active state until conflict clearance exists.</p>
+          <h1 className="lip-page-title text-slate-900">Matters</h1>
+          <p className="text-[13px] text-slate-500">A matter stays out of the active state until conflict clearance exists.</p>
         </div>
       </div>
       <FilterBar>
@@ -314,8 +315,8 @@ export function MattersScreen() {
         <select className={fieldClass} aria-label="Enquiry" value={enquiryId} onChange={(event) => setEnquiryId(event.target.value)}>{enquiries.map((enquiry) => <option key={enquiry.id} value={enquiry.id}>{enquiry.summary}</option>)}</select>
         <input className={fieldClass} placeholder="Matter title" value={title} onChange={(event) => setTitle(event.target.value)} required />
         <select className={fieldClass} aria-label="Owner" value={ownerId} onChange={(event) => setOwnerId(event.target.value)}>{people.map((person) => <option key={person.id} value={person.id}>{person.name}</option>)}</select>
-        <button type="submit" className="inline-flex h-8 items-center rounded border border-slate-200 bg-white px-3 text-[12px] font-medium text-slate-700">Open matter</button>
-        {note && <span className="text-[12px] text-slate-500">{note}</span>}
+        <button type="submit" className="inline-flex min-h-10 items-center rounded-xl border border-slate-200 bg-white px-4 text-[13px] font-medium text-slate-700">Open matter</button>
+        {note && <span className="text-[13px] text-slate-500">{note}</span>}
       </form>
       <WorkTable empty="No visible matters." columns={visible.map((row) => [
         { label: "Matter", cell: <Link href={`/dashboard/matters/${row.id}`} className="font-semibold text-[#0B1640]">{row.title}</Link> },
@@ -325,11 +326,11 @@ export function MattersScreen() {
         { label: "Risk", cell: <StatusDot status={row.risk} /> },
         { label: "Owner", cell: ownerName(row.ownerId) },
       ])} />
-      <div className="flex items-center justify-between text-[12px] text-slate-500">
+      <div className="flex items-center justify-between text-[13px] text-slate-500">
         <span>{filtered.length === 0 ? "0" : `${currentPage * pageSize + 1}–${Math.min(filtered.length, (currentPage + 1) * pageSize)}`} of {filtered.length}</span>
         <span className="flex gap-2">
-          <button type="button" className="rounded border border-slate-200 px-2 py-1 disabled:opacity-40" disabled={currentPage === 0} onClick={() => setPage(currentPage - 1)}>Previous</button>
-          <button type="button" className="rounded border border-slate-200 px-2 py-1 disabled:opacity-40" disabled={currentPage >= pageCount - 1} onClick={() => setPage(currentPage + 1)}>Next</button>
+          <button type="button" className="min-h-9 rounded-xl border border-slate-200 bg-white px-3 py-2 disabled:opacity-40" disabled={currentPage === 0} onClick={() => setPage(currentPage - 1)}>Previous</button>
+          <button type="button" className="min-h-9 rounded-xl border border-slate-200 bg-white px-3 py-2 disabled:opacity-40" disabled={currentPage >= pageCount - 1} onClick={() => setPage(currentPage + 1)}>Next</button>
         </span>
       </div>
     </div>
@@ -361,8 +362,8 @@ export function MatterScreen({ id }: { id: string }) {
         <div className="flex items-center gap-3">
           <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#1769FF] text-white">{initials(data.matter.title)}</span>
           <div>
-            <h2 className="text-[22px] font-bold text-[#0B1B4D]">{data.matter.title}</h2>
-            <p className="text-[12px] text-slate-500">{data.matter.practiceArea} · {data.matter.jurisdiction}</p>
+            <h1 className="lip-page-title text-[#0B1B4D]">{data.matter.title}</h1>
+            <p className="text-[13px] text-slate-500">{data.matter.practiceArea} · {data.matter.jurisdiction}</p>
           </div>
         </div>
         <div className="flex gap-2">
@@ -370,7 +371,7 @@ export function MatterScreen({ id }: { id: string }) {
           {data.matter.status !== "active" && <PrimaryButton onClick={async () => { try { await api(`/api/v1/matters/${id}/activate`, { method: "POST" }); setNote("Matter is active."); await load(); } catch (error) { setNote(error instanceof Error ? error.message : "Activation blocked."); } }}>Activate</PrimaryButton>}
         </div>
       </div>
-      {note && <p className="text-[12px] text-slate-500">{note}</p>}
+      {note && <p className="text-[13px] text-slate-500">{note}</p>}
       <div className="flex gap-1 overflow-x-auto border-b border-slate-200">
         {tabs.map((item) => (
           <button key={item.id} type="button" onClick={() => setTab(item.id)} className={`border-b-2 px-3 py-2.5 text-[13px] font-medium ${tab === item.id ? "border-[#1769FF] text-[#1769FF]" : "border-transparent text-slate-500"}`}>{item.label}</button>
@@ -378,7 +379,7 @@ export function MatterScreen({ id }: { id: string }) {
       </div>
       {tab === "summary" && <DetailCard title="Summary"><Fields rows={[{ label: "Status", value: <StatusDot status={data.matter.status} /> }, { label: "Clearance", value: <StatusDot status={data.matter.clearanceState} /> }, { label: "Risk", value: <StatusDot status={data.matter.risk} /> }, { label: "Exposure", value: data.matter.exposureNote }, { label: "Jurisdiction", value: data.matter.jurisdiction }, { label: "Outcome probability", value: "Withheld" }]} /></DetailCard>}
       {tab === "tasks" && <DetailCard title="Tasks">{data.tasks.map((task) => <div key={task.id} className="flex items-center justify-between border-b border-slate-100 py-2 text-[13px]"><span>{task.title} · {task.timeZone}</span>{task.dateVerified ? <StatusDot status="verified" /> : <SecondaryButton onClick={async () => { await api(`/api/v1/tasks/${task.id}/verify`, { method: "POST" }); await load(); }}>Verify date</SecondaryButton>}</div>)}</DetailCard>}
-      {tab === "documents" && <DetailCard title="Documents">{data.documents.map((doc) => <div key={doc.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 py-2 text-[13px]"><span>{doc.title}{approvalIds[doc.id] && <span className="mt-1 block text-[12px] text-slate-500">Approval {approvalIds[doc.id]}</span>}</span><span className="flex items-center gap-2"><StatusDot status={doc.approvalState} />{doc.approvalState !== "issued" && doc.approvalState !== "approved" && <SecondaryButton onClick={async () => { const approval = await api<{ id: string }>(`/api/v1/documents/${doc.id}/request-approval`, { method: "POST" }); setApprovalIds((current) => ({ ...current, [doc.id]: approval.id })); setNote(`Approval ${approval.id} is waiting for a different person.`); await load(); }}>Request approval</SecondaryButton>}</span></div>)}{data.documents.length === 0 && <p className="text-[13px] text-slate-500">No documents yet.</p>}</DetailCard>}
+      {tab === "documents" && <DetailCard title="Documents">{data.documents.map((doc) => <div key={doc.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 py-2 text-[13px]"><span>{doc.title}{approvalIds[doc.id] && <span className="mt-1 block text-[13px] text-slate-500">Approval {approvalIds[doc.id]}</span>}</span><span className="flex items-center gap-2"><StatusDot status={doc.approvalState} />{doc.approvalState !== "issued" && doc.approvalState !== "approved" && <SecondaryButton onClick={async () => { const approval = await api<{ id: string }>(`/api/v1/documents/${doc.id}/request-approval`, { method: "POST" }); setApprovalIds((current) => ({ ...current, [doc.id]: approval.id })); setNote(`Approval ${approval.id} is waiting for a different person.`); await load(); }}>Request approval</SecondaryButton>}</span></div>)}{data.documents.length === 0 && <p className="text-[13px] text-slate-500">No documents yet.</p>}</DetailCard>}
       {tab === "approvals" && <DetailCard title="Approvals">{data.approvals.map((approval) => <div key={approval.id} className="flex items-center justify-between border-b border-slate-100 py-2 text-[13px]"><span>{approval.id} · requestor {approval.requestorId}</span>{approval.decision === "pending" ? <PrimaryButton onClick={async () => { try { await api(`/api/v1/approvals/${approval.id}/decisions`, { method: "POST", body: JSON.stringify({ decision: "approved" }) }); setNote("Approved by a different person."); await load(); } catch (error) { setNote(error instanceof Error ? error.message : "Approval refused."); } }}>Approve</PrimaryButton> : <StatusDot status={approval.decision} />}</div>)}{data.approvals.length === 0 && <p className="text-[13px] text-slate-500">No approvals on this matter.</p>}</DetailCard>}
       {tab === "issue" && <DetailCard title="Issue">{data.documents.map((doc) => <div key={doc.id} className="flex items-center justify-between border-b border-slate-100 py-2 text-[13px]"><span>{doc.title}</span><span className="flex items-center gap-2"><StatusDot status={doc.approvalState} />{doc.approvalState === "approved" && <PrimaryButton onClick={async () => { try { await api(`/api/v1/documents/${doc.id}/issue`, { method: "POST" }); setNote(`${doc.title} was issued.`); await load(); } catch (error) { setNote(error instanceof Error ? error.message : "Issue is waiting for approval."); } }}>Issue</PrimaryButton>}</span></div>)}{data.documents.length === 0 && <p className="text-[13px] text-slate-500">No documents yet.</p>}</DetailCard>}
       {tab === "timeline" && <DetailCard title="Timeline">{data.conflicts.map((item) => <div key={item.counterparty} className="border-b border-slate-100 py-2 text-[13px]">Conflict {item.counterparty}: {item.disposition}. {item.notes}</div>)}{data.hearings.map((hearing) => <div key={hearing.caseReference} className="border-b border-slate-100 py-2 text-[13px]">{hearing.forum} · {hearing.caseReference} · {hearing.verifiedByCounsel ? "counsel verified" : "date unverified"}</div>)}</DetailCard>}
@@ -417,10 +418,10 @@ export function WorkbenchScreen() {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-lg font-semibold text-slate-900">Legal workbench</h2>
-        <p className="text-[12px] text-slate-500">A hit cites the demonstration extract. A miss creates no citation. This page does not issue a document.</p>
+        <h1 className="lip-page-title text-slate-900">Legal workbench</h1>
+        <p className="text-[13px] text-slate-500">A hit cites the demonstration extract. A miss creates no citation. This page does not issue a document.</p>
       </div>
-      <div className="space-y-2 rounded-xl border border-slate-200 bg-white p-3">
+      <div className="lip-card space-y-3 rounded-2xl border border-slate-200 bg-white p-5">
         <textarea className={`min-h-28 w-full py-2 ${composer}`} placeholder="Question" aria-label="Question" value={question} onChange={(event) => setQuestion(event.target.value)} />
         <div className="flex flex-wrap items-center gap-2">
           <input className={`h-11 w-full max-w-[12rem] ${composer}`} aria-label="Jurisdiction" value={jurisdiction} onChange={(event) => setJurisdiction(event.target.value)} />
@@ -434,8 +435,8 @@ export function WorkbenchScreen() {
       {result && (
         <DetailCard title={result.evidence === "none" ? "No verified authority" : "Citation"}>
           <p className="text-[13px] leading-relaxed">{result.body}</p>
-          <p className="mt-2 text-[12px] text-slate-500">Review state {result.reviewState}</p>
-          {result.citations?.map((citation) => <p key={citation.citation} className="mt-2 text-[12px] text-slate-500">{citation.citation} · {citation.licenceStatus}</p>)}
+          <p className="mt-2 text-[13px] text-slate-500">Review state {result.reviewState}</p>
+          {result.citations?.map((citation) => <p key={citation.citation} className="mt-2 text-[13px] text-slate-500">{citation.citation} · {citation.licenceStatus}</p>)}
         </DetailCard>
       )}
       <DetailCard title="Earlier notes">
@@ -444,7 +445,7 @@ export function WorkbenchScreen() {
           <div key={note.id} className="border-b border-slate-100 py-2 text-[13px]">
             <p className="font-medium text-[#0B1640]">{note.question}</p>
             <p className="mt-1 text-slate-600">{note.body}</p>
-            <p className="mt-1 text-[12px] text-slate-500">{note.reviewState}</p>
+            <p className="mt-1 text-[13px] text-slate-500">{note.reviewState}</p>
           </div>
         ))}
       </DetailCard>
@@ -462,9 +463,9 @@ export function ContractsScreen() {
   useEffect(() => { load(); }, []);
   return (
     <div className="space-y-3">
-      <h2 className="text-lg font-semibold text-slate-900">Contracts</h2>
-      <p className="text-[12px] text-slate-500">Dates stay unvalidated until counsel confirms them. A disposition does not amend the contract.</p>
-      {note && <p className="text-[12px] text-slate-500">{note}</p>}
+      <h1 className="lip-page-title text-slate-900">Contracts</h1>
+      <p className="text-[13px] text-slate-500">Dates stay unvalidated until counsel confirms them. A disposition does not amend the contract.</p>
+      {note && <p className="text-[13px] text-slate-500">{note}</p>}
       <WorkTable empty="No contract reviews for the matters you can see." columns={rows.map((row) => {
         const draft = drafts[row.id] ?? { reason: "", datesConfirmed: false };
         return [
@@ -473,8 +474,8 @@ export function ContractsScreen() {
           { label: "Rule", cell: row.deviationRule },
           { label: "Location", cell: row.deviationLocation },
           { label: "Severity", cell: <StatusDot status={row.severity} /> },
-          { label: "Dates", cell: <span className="inline-flex items-center gap-2">{row.extractedDates}{row.datesValidated && <span className="inline-flex items-center gap-1 text-[12px] text-emerald-700"><span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />confirmed</span>}</span> },
-          { label: "Disposition", cell: row.disposition ? <div className="whitespace-normal"><StatusDot status={row.disposition} /><p className="mt-1 max-w-xs text-[12px] text-slate-500">{row.dispositionReason}</p></div> : <div className="flex flex-col items-start gap-1 whitespace-normal"><input className={`${fieldClass} w-56`} aria-label="Reason" value={draft.reason} onChange={(event) => setDrafts((current) => ({ ...current, [row.id]: { ...draft, reason: event.target.value } }))} /><label className="flex items-center gap-2 text-[12px] text-slate-600"><input type="checkbox" checked={draft.datesConfirmed} onChange={(event) => setDrafts((current) => ({ ...current, [row.id]: { ...draft, datesConfirmed: event.target.checked } }))} />dates confirmed</label><span className="flex gap-1">{["accepted", "mitigated", "escalated"].map((disposition) => <button key={disposition} type="button" disabled={!draft.reason.trim()} className="rounded border border-slate-200 px-2 py-1 text-[11px] disabled:opacity-40" onClick={async () => { await api(`/api/v1/contracts/${row.id}/dispositions`, { method: "POST", body: JSON.stringify({ disposition, reason: draft.reason.trim(), datesValidated: draft.datesConfirmed }) }); setNote("Disposition stored. The contract was not amended."); await load(); }}>{disposition}</button>)}</span></div> },
+          { label: "Dates", cell: <span className="inline-flex items-center gap-2">{row.extractedDates}{row.datesValidated && <span className="inline-flex items-center gap-1 text-[13px] text-emerald-700"><span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />confirmed</span>}</span> },
+          { label: "Disposition", cell: row.disposition ? <div className="whitespace-normal"><StatusDot status={row.disposition} /><p className="mt-1 max-w-xs text-[13px] text-slate-500">{row.dispositionReason}</p></div> : <div className="flex flex-col items-start gap-1 whitespace-normal"><input className={`${fieldClass} w-56`} aria-label="Reason" value={draft.reason} onChange={(event) => setDrafts((current) => ({ ...current, [row.id]: { ...draft, reason: event.target.value } }))} /><label className="flex items-center gap-2 text-[13px] text-slate-600"><input type="checkbox" checked={draft.datesConfirmed} onChange={(event) => setDrafts((current) => ({ ...current, [row.id]: { ...draft, datesConfirmed: event.target.checked } }))} />dates confirmed</label><span className="flex gap-1">{["accepted", "mitigated", "escalated"].map((disposition) => <button key={disposition} type="button" disabled={!draft.reason.trim()} className="min-h-9 rounded-xl border border-slate-200 bg-white px-3 py-2 text-[12px] disabled:opacity-40" onClick={async () => { await api(`/api/v1/contracts/${row.id}/dispositions`, { method: "POST", body: JSON.stringify({ disposition, reason: draft.reason.trim(), datesValidated: draft.datesConfirmed }) }); setNote("Disposition stored. The contract was not amended."); await load(); }}>{disposition}</button>)}</span></div> },
         ];
       })} />
     </div>
@@ -489,8 +490,8 @@ export function LitigationScreen() {
   useEffect(() => { load(); }, []);
   return (
     <div className="space-y-3">
-      <h2 className="text-lg font-semibold text-slate-900">Litigation</h2>
-      <p className="text-[12px] text-slate-500">Hearing dates show whether counsel has verified them. No outcome probability is stored.</p>
+      <h1 className="lip-page-title text-slate-900">Litigation</h1>
+      <p className="text-[13px] text-slate-500">Hearing dates show whether counsel has verified them. No outcome probability is stored.</p>
       <WorkTable empty="No hearings on matters you can see." columns={rows.map((row) => [
         { label: "Reference", cell: row.caseReference },
         { label: "Forum", cell: row.forum },
@@ -515,8 +516,8 @@ export function ComplianceScreen() {
   }, []);
   return (
     <div className="space-y-3">
-      <h2 className="text-lg font-semibold text-slate-900">Compliance</h2>
-      <p className="text-[12px] text-slate-500">A status change leaves the source id attached.</p>
+      <h1 className="lip-page-title text-slate-900">Compliance</h1>
+      <p className="text-[13px] text-slate-500">A status change leaves the source id attached.</p>
       <WorkTable empty="No obligations for this tenant." columns={rows.map((row) => [
         { label: "Obligation", cell: row.title },
         { label: "Source", cell: row.sourceId },
@@ -545,8 +546,8 @@ export function CalendarScreen() {
   ].sort((left, right) => new Date(left.when).getTime() - new Date(right.when).getTime());
   return (
     <div className="space-y-3">
-      <h2 className="text-lg font-semibold text-slate-900">Calendar</h2>
-      <p className="text-[12px] text-slate-500">Deadlines stay linked to matters you can see. Unverified dates stay marked.</p>
+      <h1 className="lip-page-title text-slate-900">Calendar</h1>
+      <p className="text-[13px] text-slate-500">Deadlines stay linked to matters you can see. Unverified dates stay marked.</p>
       <WorkTable empty="No deadlines." columns={rows.map((row) => [
         { label: "When", cell: new Date(row.when).toLocaleString("en-GB", { timeZone: row.zone }) },
         { label: "Item", cell: row.item },
@@ -587,8 +588,8 @@ export function AcquisitionScreen() {
             {enquiries.map((row) => (
               <li key={row.id}>
                 <button type="button" className="flex w-full items-center justify-between px-4 py-3 text-left text-[13px] hover:bg-slate-50" onClick={() => setOpenId(row.id)}>
-                  <span><span className="font-semibold text-[#0B1640]">{row.summary}</span><span className="block text-[11px] text-slate-500">{row.category}</span></span>
-                  <span className="text-[12px] text-slate-500">{row.sourceChannel} · {row.stage}</span>
+                  <span><span className="font-semibold text-[#0B1640]">{row.summary}</span><span className="block text-[12px] text-slate-500">{row.category}</span></span>
+                  <span className="text-[13px] text-slate-500">{row.sourceChannel} · {row.stage}</span>
                 </button>
               </li>
             ))}
@@ -596,8 +597,8 @@ export function AcquisitionScreen() {
           {open && (
             <div className="border-t border-slate-100 px-4 py-3 text-[13px]">
               <p className="font-semibold text-[#0B1640]">{open.summary}</p>
-              <p className="mt-1 text-[12px] text-slate-500">First touch {open.sourceChannel}. Stage {open.stage}.</p>
-              {open.latestChannel !== open.sourceChannel && <p className="mt-1 text-[12px] text-slate-500">A later {open.latestChannel} visit did not change the first touch.</p>}
+              <p className="mt-1 text-[13px] text-slate-500">First touch {open.sourceChannel}. Stage {open.stage}.</p>
+              {open.latestChannel !== open.sourceChannel && <p className="mt-1 text-[13px] text-slate-500">A later {open.latestChannel} visit did not change the first touch.</p>}
             </div>
           )}
         </QueueCard>
@@ -627,7 +628,7 @@ export function ReportsScreen() {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-900">Reports</h2>
+        <h1 className="lip-page-title text-slate-900">Reports</h1>
         <SecondaryButton onClick={() => {
           const csv = ["Metric,Value,Definition", ...rows.map((row) => row.map((cell) => `"${cell.replace(/"/g, '""')}"`).join(","))].join("\n");
           const blob = new Blob([csv], { type: "text/csv" });
@@ -637,7 +638,7 @@ export function ReportsScreen() {
           URL.revokeObjectURL(url);
         }}>Export</SecondaryButton>
       </div>
-      <p className="text-[12px] text-slate-500">Collected revenue is reconciled cash. It is separate from invoices.</p>
+      <p className="text-[13px] text-slate-500">Collected revenue is reconciled cash. It is separate from invoices.</p>
       {data && <KpiStrip items={[
         { label: "Unique enquiries", value: String(data.uniqueEnquiries) },
         { label: "WhatsApp first touch", value: String(data.whatsappFirstTouch) },
@@ -766,12 +767,13 @@ export function CommandScreen() {
 
   const idle = messages.length === 0 && !busy && !loadingThread;
   return (
-    <div className="cip-cc -mx-3 -my-4 flex min-h-[calc(100dvh-3.5rem)] flex-col px-4 sm:-mx-4 sm:px-6 md:-mx-6">
-      <div className={`mx-auto flex w-full max-w-3xl flex-1 flex-col ${idle ? "justify-center" : "pt-8"}`}>
+    <div className="cip-cc -mx-3 -my-4 flex min-h-[calc(100dvh-4rem)] flex-col px-4 sm:-mx-4 sm:px-6 md:-mx-6">
+      <div className={`mx-auto flex w-full max-w-5xl flex-1 flex-col py-8 ${idle ? "justify-center" : "pt-8"}`}>
         {idle && (
-          <header className="mb-6 text-center">
-            <h2 className="cip-cc-serif text-[1.85rem] font-semibold text-[#0B1640] sm:text-[2.35rem]">{greeting()}{first ? <>, <span className="text-[#1769FF]">{first}</span></> : null}</h2>
-            <p className="cip-cc-serif mx-auto mt-3 max-w-lg text-[15px] text-slate-500">Ask a legal question and get an answer with its citation.</p>
+          <header className="mb-10 text-center">
+            <Sparkles aria-hidden="true" className="mx-auto mb-6 h-12 w-12 text-amber-400" strokeWidth={1.4} />
+            <h1 className="text-[2rem] font-bold tracking-tight text-[#080F49] sm:text-[3rem]">{greeting()}{first ? <>, <span className="text-[#1769FF]">{first}</span></> : null}</h1>
+            <p className="mx-auto mt-3 max-w-xl text-base text-slate-500 sm:text-lg">Ask a legal question and get an answer with its citation.</p>
           </header>
         )}
         {!idle && (
@@ -779,19 +781,19 @@ export function CommandScreen() {
             {messages.map((message, index) => (
               <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div className="max-w-[85%]">
-                  <div className={`rounded-2xl px-4 py-3 text-[14px] leading-relaxed ${message.role === "user" ? "bg-[#1769FF] text-white" : "border border-slate-200 bg-white text-slate-800"}`}>
+                  <div className={`rounded-2xl px-4 py-3 text-[14px] leading-relaxed ${message.role === "user" ? "bg-blue-100 text-[#080F49]" : "border border-slate-200 bg-white text-slate-800"}`}>
                     {message.text}
                   </div>
-                  {message.citation && <p className="mt-1 px-1 text-[11px] leading-snug text-slate-500">{message.citation}</p>}
+                  {message.citation && <p className="mt-1 px-1 text-[12px] leading-snug text-slate-500">{message.citation}</p>}
                 </div>
               </div>
             ))}
-            {busy && <div className="text-[12px] text-slate-400">Working…</div>}
+            {busy && <div className="text-[13px] text-slate-400">Working…</div>}
           </div>
         )}
-        <div className={`${idle ? "" : "sticky bottom-4"} rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_8px_30px_rgba(15,23,42,0.06)]`}>
-          <div className="flex gap-2">
-            <input className="h-11 flex-1 rounded-xl border border-slate-200 px-3 text-[14px] outline-none focus:border-[#1769FF]" placeholder="Ask about a matter you can see" value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") void send(); }} />
+        <div className={`lip-composer ${idle ? "" : "sticky bottom-4"} rounded-3xl border border-slate-200 bg-white p-4 sm:p-6`}>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
+            <input aria-label="Ask about a matter you can see" className="h-16 min-w-0 flex-1 rounded-xl border-0 bg-transparent px-2 text-base outline-none sm:text-lg" placeholder="Ask about a matter you can see" value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") void send(); }} />
             <PrimaryButton onClick={() => void send()} disabled={busy}>Send</PrimaryButton>
           </div>
         </div>
@@ -836,19 +838,19 @@ export function SettingsScreen() {
   if (me.user.role === "Advocate") return <EmptyState title="Access denied" body="Settings is not available for this role." />;
   const money = (value: number) => Number(value).toLocaleString("en-GB");
   return (
-    <div className="mx-auto flex max-w-[920px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl lg:min-h-[560px]">
+    <div className="mx-auto flex max-w-[920px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:min-h-[560px]">
       <aside className="hidden w-52 flex-shrink-0 border-r border-gray-100 bg-gray-50 p-3 lg:block">
         {settingsSections.map((item) => <button key={item.id} type="button" onClick={() => setSection(item.id)} className={`mb-1 block w-full rounded-lg px-3 py-2 text-left text-sm ${section === item.id ? "bg-blue-50 text-blue-700" : "text-slate-600"}`}>{item.label}</button>)}
       </aside>
       <div className="min-w-0 flex-1 p-5">
         <div className="mb-4 flex gap-2 overflow-x-auto lg:hidden">
-          {settingsSections.map((item) => <button key={item.id} type="button" onClick={() => setSection(item.id)} className={`shrink-0 rounded-full px-3 py-1.5 text-[12px] ${section === item.id ? "bg-blue-600 text-white" : "bg-white ring-1 ring-gray-200"}`}>{item.label}</button>)}
+          {settingsSections.map((item) => <button key={item.id} type="button" onClick={() => setSection(item.id)} className={`shrink-0 rounded-full px-3 py-1.5 text-[13px] ${section === item.id ? "bg-blue-600 text-white" : "bg-white ring-1 ring-gray-200"}`}>{item.label}</button>)}
         </div>
         {section === "profile" && <Fields rows={[{ label: "Name", value: me.user.name }, { label: "Email", value: me.user.email }, { label: "Role", value: me.user.role }]} />}
         {section === "organization" && (
           <div className="space-y-2">
             <Fields rows={[{ label: "Tenant", value: me.tenant.name }, { label: "Mode", value: me.tenant.mode }, { label: "Plan", value: me.tenant.plan }, { label: "Branding", value: me.tenant.branding }]} />
-            <p className="text-[12px] text-slate-500">Corporate mode hides Acquisition.</p>
+            <p className="text-[13px] text-slate-500">Corporate mode hides Acquisition.</p>
           </div>
         )}
         {section === "people" && directory?.people.map((person) => <div key={person.id} className="border-b border-slate-100 py-2 text-[13px]"><span className="font-semibold text-[#0B1640]">{person.name}</span> · {person.role}</div>)}
@@ -856,7 +858,7 @@ export function SettingsScreen() {
           const name = directory?.people.find((person) => person.id === wall.userId)?.name ?? wall.userId;
           return <div key={wall.id} className="border-b border-slate-100 py-2 text-[13px]">{name} cannot see {wall.matterTitle}. {wall.reason}</div>;
         })}
-        {section === "connectors" && connectors.map((row) => <div key={row.name} className="border-b border-slate-100 py-2 text-[13px]"><span className="font-semibold">{row.name}</span> · <StatusDot status={row.status} /><div className="text-[12px] text-slate-500">{row.detail}</div></div>)}
+        {section === "connectors" && connectors.map((row) => <div key={row.name} className="border-b border-slate-100 py-2 text-[13px]"><span className="font-semibold">{row.name}</span> · <StatusDot status={row.status} /><div className="text-[13px] text-slate-500">{row.detail}</div></div>)}
         {section === "usage" && metrics && <Fields rows={[
           { label: "Unique enquiries", value: String(metrics.uniqueEnquiries) },
           { label: "WhatsApp first touch", value: String(metrics.whatsappFirstTouch) },
