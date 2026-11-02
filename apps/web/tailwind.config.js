@@ -4,6 +4,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        slate: { 50: "#f3f8ff", 100: "#eaf2fc", 200: "#dce8f8", 300: "#bfcee7", 400: "#7181a5", 500: "#617198", 600: "#485b83", 700: "#30456e", 800: "#1c2e59", 900: "#080f49" },
+        gray: { 50: "#f3f8ff", 100: "#eaf2fc", 200: "#dce8f8", 400: "#7181a5", 600: "#485b83" },
         navy: { DEFAULT: "#1e3a5f", deep: "#1e3a5f", slate: "#2d5a87" },
         primary: { blue: "#2d5a87", violet: "#4a7fb5" },
         surface: { DEFAULT: "#f5f7fa", cool: "#e2e8f0", lavender: "#e8f0fe", green: "#ecfdf5", orange: "#fffbeb" },

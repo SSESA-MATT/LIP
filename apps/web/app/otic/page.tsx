@@ -23,14 +23,14 @@ export default function OticPage() {
         <button type="button" className="text-sm text-[#1769FF]" onClick={() => { localStorage.removeItem("lip-token"); router.replace("/login"); }}>Sign out</button>
       </header>
       <main className="mx-auto max-w-6xl space-y-4 px-4 py-6">
-        <h1 className="text-lg font-semibold text-slate-900">Otic administration</h1>
-        <p className="text-[12px] text-slate-500">Tenant and usage metadata. Document bodies are not returned.</p>
+        <h1 className="lip-page-title text-slate-900">Otic administration</h1>
+        <p className="text-[13px] text-slate-500">Tenant and usage metadata. Document bodies are not returned.</p>
         <KpiStrip items={[{ label: "Tenants", value: String(tenants.length) }, { label: "Document bodies", value: String(usage?.documentBodies.length ?? 0) }]} />
         <QueueCard title="Tenants">
           <ul className="divide-y divide-slate-50">
             {tenants.map((tenant) => (
               <li key={tenant.id} className="flex items-center justify-between px-4 py-3 text-[13px]">
-                <span><span className="font-semibold text-[#0B1640]">{tenant.name}</span><span className="block text-[11px] text-slate-500">{tenant.plan}</span></span>
+                <span><span className="font-semibold text-[#0B1640]">{tenant.name}</span><span className="block text-[12px] text-slate-500">{tenant.plan}</span></span>
                 <StatusDot status={tenant.mode} />
               </li>
             ))}
